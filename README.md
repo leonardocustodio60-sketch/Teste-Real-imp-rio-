@@ -24,7 +24,14 @@ npm install
 npm run dev        # http://localhost:5173
 npm run build      # gera /dist (estático, pronto para deploy)
 npm run preview    # serve o /dist localmente
+npm run build:demo # gera demo/real-imperio-apresentacao.html (arquivo único para apresentar)
 ```
+
+### Arquivo de apresentação para o cliente
+
+`npm run build:demo` gera **um único HTML** com tudo embutido (JS, CSS, fontes e 3D, ~1,7 MB).
+Ele abre com dois cliques no navegador do computador, sem servidor e sem internet, e é fácil de enviar por e-mail ou Drive.
+A pasta `demo/` não vai para o Git: gere o arquivo novamente sempre que o conteúdo mudar.
 
 Requer Node 20.19+ (recomendado 22).
 
