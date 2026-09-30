@@ -164,21 +164,21 @@ function Arm({ spec, side, skin, sleeve, sleeveMat, wristExtra, handExtra }) {
       const e = sleeve.ease
       sleeveParts = (
         <>
-          <Sphere r={spec.shoulderR + e + sleeve.wide} material={sleeveMat} />
+          <Sphere r={spec.shoulderR + e + sleeve.wide} material={sleeveMat} scale={[1, 0.6, 1]} />
           <Limb r1={spec.shoulderR + e + sleeve.wide} r2={ua.r2 + e + sleeve.wide * 0.6} len={ua.len} material={sleeveMat} />
         </>
       )
     } else if (sleeve.oversized) {
       sleeveParts = (
         <>
-          <Sphere r={spec.shoulderR + 0.034} material={sleeveMat} />
-          <Limb r1={spec.shoulderR + 0.034} r2={0.078} len={ua.len * 0.74} material={sleeveMat} />
+          <Sphere r={spec.shoulderR + 0.026} material={sleeveMat} scale={[1, 0.5, 1]} />
+          <Limb r1={spec.shoulderR + 0.026} r2={0.074} len={ua.len * 0.74} material={sleeveMat} />
         </>
       )
     } else {
       sleeveParts = (
         <>
-          <Sphere r={spec.shoulderR + 0.012} material={sleeveMat} />
+          <Sphere r={spec.shoulderR + 0.012} material={sleeveMat} scale={[1, 0.6, 1]} />
           <Limb r1={spec.shoulderR + 0.012} r2={ua.r1 + 0.012} len={ua.len * 0.5} material={sleeveMat} />
         </>
       )

@@ -32,6 +32,8 @@ export const site = {
       city: 'Araruama',
       state: 'RJ',
       address: 'Estr. Emb. São Vicente – Fazendinha',
+      landmark: 'dentro do Superpreço',
+      postalCode: '28984-350',
       complement: 'Dentro do Superpreço · CEP 28984-350',
       // Perfil da loja no Google (rotas, fotos e avaliações)
       mapsUrl: 'https://share.google/zNfRj98pEfq6MZCBF',
@@ -138,6 +140,33 @@ export const site = {
     },
   ],
 
+  /**
+   * PERGUNTAS FREQUENTES — aparecem na página e também viram dados
+   * estruturados (Schema.org FAQPage) e conteúdo do llms.txt.
+   */
+  faq: [
+    {
+      q: 'Onde ficam as lojas da Real Império Multimarcas?',
+      a: 'A loja de Araruama fica na Estr. Emb. São Vicente – Fazendinha, dentro do Superpreço (CEP 28984-350). Também estamos em Iguaba Grande — chame no WhatsApp (22) 99272-0497 para receber o endereço.',
+    },
+    {
+      q: 'Qual é o horário de funcionamento?',
+      a: 'Atendemos de segunda a sábado, a partir das 9h. Pelo WhatsApp você já pode separar as peças antes de ir à loja.',
+    },
+    {
+      q: 'Vocês fazem envio?',
+      a: 'Sim. Escolha as peças pelo WhatsApp (22) 99272-0497 e combine o envio com a nossa equipe. Se preferir, é só retirar em uma das lojas.',
+    },
+    {
+      q: 'Como comprar um look que vi no site?',
+      a: 'Toque em "Quero esse look" ou em "Comprar pelo WhatsApp". A mensagem já vai com o nome do look e a equipe confirma tamanhos, valores e a forma de entrega.',
+    },
+    {
+      q: 'Que tipo de roupa a Real Império vende?',
+      a: 'Somos uma loja multimarcas de peças importadas e nacionais: camisetas oversized, camisas de time, calça baggy, bermuda jeans balão, regatas, moletons, tênis importados, bonés e acessórios.',
+    },
+  ],
+
   lead: {
     eyebrow: 'Lista VIP do Império',
     title: 'Chegou mercadoria? Você fica sabendo primeiro.',
@@ -145,6 +174,10 @@ export const site = {
     button: 'Quero entrar na lista',
     consent: 'Ao enviar, você aceita receber novidades da Real Império. Sem spam — saia quando quiser.',
     success: 'Você está na lista! 👑 Fique de olho no seu e-mail.',
+  },
+
+  legal: {
+    privacyPath: './politica-de-privacidade/',
   },
 }
 

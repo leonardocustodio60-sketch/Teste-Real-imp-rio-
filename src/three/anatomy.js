@@ -124,9 +124,9 @@ export function getAnchors(type) {
   const wrist = armPoint(s, -1, s.forearm.len - 0.02)
   const hand = armPoint(s, 1, s.forearm.len + 0.14)
   return {
-    chest: { pos: [0.07, f ? 1.27 : 1.3, f ? 0.14 : 0.155], normal: [0.2, 0, 1] },
+    chest: { pos: [0.08, f ? 1.24 : 1.22, f ? 0.14 : 0.155], normal: [0.2, 0, 1] },
     back: { pos: [0, f ? 1.22 : 1.26, f ? -0.145 : -0.16], normal: [0, 0, -1] },
-    neck: { pos: [0.02, f ? 1.36 : 1.4, f ? 0.14 : 0.155], normal: [0, 0.2, 1] },
+    neck: { pos: [0.03, f ? 1.42 : 1.455, f ? 0.12 : 0.13], normal: [0, 0.3, 1] },
     head: { pos: [0, s.head.y + 0.13, 0.02], normal: [0, 0.6, 0.8] },
     waist: { pos: [0.1, s.waistY, f ? 0.12 : 0.125], normal: [0.3, 0, 1] },
     thigh: { pos: [0.16, 0.66, 0.08], normal: [0.6, 0, 0.8] },

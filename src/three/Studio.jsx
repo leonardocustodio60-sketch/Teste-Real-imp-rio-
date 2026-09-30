@@ -1,22 +1,51 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
-import { Environment, Lightformer } from '@react-three/drei'
+import { useThree } from '@react-three/fiber'
 import { getBlobShadowTexture } from './materials'
+
+// Softboxes do estúdio: [cor, intensidade, posição, escala, forma]
+const SOFTBOXES = [
+  ['#ffffff', 2.4, [0, 6, 1], [10, 4, 1], 'rect'],
+  ['#fff1d6', 1.8, [-6, 2, 3], [3, 7, 1], 'rect'],
+  ['#f5c542', 3.2, [6, 1.5, -2], [2.5, 7, 1], 'rect'],
+  ['#ffffff', 2, [0, 2, 8], [4, 4, 1], 'ring'],
+  ['#f5c542', 0.6, [0, -4, 0], [12, 12, 1], 'rect'],
+]
 
 /**
  * Iluminação de estúdio "cyber-imperial": softboxes brancas + recorte dourado.
- * O mapa de ambiente é gerado localmente com Lightformers (nenhum HDR baixado).
+ * O mapa de reflexos é gerado uma única vez no próprio navegador (PMREM),
+ * sem baixar nenhum arquivo HDR.
  */
-export function StudioEnvironment({ lite }) {
-  return (
-    <Environment resolution={lite ? 128 : 256} frames={1}>
-      <Lightformer form="rect" intensity={2.4} color="#ffffff" position={[0, 6, 1]} scale={[10, 4, 1]} />
-      <Lightformer form="rect" intensity={1.8} color="#fff1d6" position={[-6, 2, 3]} scale={[3, 7, 1]} />
-      <Lightformer form="rect" intensity={3.2} color="#f5c542" position={[6, 1.5, -2]} scale={[2.5, 7, 1]} />
-      <Lightformer form="ring" intensity={2} color="#ffffff" position={[0, 2, 8]} scale={4} />
-      <Lightformer form="rect" intensity={0.6} color="#f5c542" position={[0, -4, 0]} scale={[12, 12, 1]} />
-    </Environment>
-  )
+export function StudioEnvironment() {
+  const gl = useThree((s) => s.gl)
+  const scene = useThree((s) => s.scene)
+
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl)
+    const studio = new THREE.Scene()
+    const disposables = []
+    for (const [color, intensity, pos, scale, form] of SOFTBOXES) {
+      const geo = form === 'ring' ? new THREE.RingGeometry(0.25, 0.5, 48) : new THREE.PlaneGeometry(1, 1)
+      const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(intensity), side: THREE.DoubleSide })
+      const mesh = new THREE.Mesh(geo, mat)
+      mesh.position.set(...pos)
+      mesh.scale.set(...scale)
+      mesh.lookAt(0, 0, 0)
+      studio.add(mesh)
+      disposables.push(geo, mat)
+    }
+    const target = pmrem.fromScene(studio, 0.03)
+    scene.environment = target.texture
+    return () => {
+      scene.environment = null
+      target.dispose()
+      pmrem.dispose()
+      disposables.forEach((d) => d.dispose())
+    }
+  }, [gl, scene])
+
+  return null
 }
 
 export function StudioLights({ intensity = 1 }) {

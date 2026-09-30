@@ -176,16 +176,17 @@ export const goldMaterial = (lite) =>
       : new THREE.MeshPhysicalMaterial({ color: '#f5c542', metalness: 1, roughness: 0.18, clearcoat: 0.6, clearcoatRoughness: 0.15 }),
   )
 
+// Manequim champanhe acetinado: contrasta com roupas claras e escuras e conversa com o dourado da marca
 export const mannequinMaterial = (lite) =>
   getSolidMaterial(`mannequin|${lite}`, () =>
     lite
-      ? new THREE.MeshStandardMaterial({ color: '#d8d3ca', roughness: 0.38, metalness: 0.05 })
+      ? new THREE.MeshStandardMaterial({ color: '#b39668', roughness: 0.34, metalness: 0.35 })
       : new THREE.MeshPhysicalMaterial({
-          color: '#d8d3ca',
-          roughness: 0.34,
-          metalness: 0.02,
-          clearcoat: 0.8,
-          clearcoatRoughness: 0.25,
+          color: '#b39668',
+          roughness: 0.3,
+          metalness: 0.35,
+          clearcoat: 0.9,
+          clearcoatRoughness: 0.2,
         }),
   )
 

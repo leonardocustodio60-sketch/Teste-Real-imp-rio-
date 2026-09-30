@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { useIdle } from '../hooks/useIdle'
 import { ChessKingMark } from './Icons'
 
 // A cena 3D (three.js) fica em um chunk separado: o texto do topo aparece
@@ -13,7 +14,9 @@ const HeroScene = lazy(() => import('../three/HeroScene'))
  * Em aparelhos sem WebGL / modo economia de dados, mostra o pôster estático.
  */
 export function HeroVisual({ config = { type: 'three' }, profile, progress, pointer, active }) {
-  if (!profile) return <HeroPoster />
+  // O 3D só começa a carregar quando o navegador fica ocioso: texto e CTA aparecem primeiro.
+  const idle = useIdle()
+  if (!profile || !idle) return <HeroPoster />
 
   if (config.type === 'video' && config.src) {
     return <ScrollVideo {...config} progress={progress} reducedMotion={profile.reducedMotion} />

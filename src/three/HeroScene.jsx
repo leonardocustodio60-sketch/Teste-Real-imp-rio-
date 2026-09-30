@@ -30,7 +30,7 @@ function HeroContent({ progress, pointer, lite, reducedMotion }) {
   const state = useRef({ p: 0, spin: 0, px: 0, py: 0 })
   const { gold, obsidian, coronet } = useChessMaterials(lite)
   const ringMat = useMemo(
-    () => new THREE.MeshBasicMaterial({ color: new THREE.Color('#f5c542').multiplyScalar(1.6), toneMapped: false }),
+    () => new THREE.MeshBasicMaterial({ color: '#f5c542', transparent: true, opacity: 0.55, toneMapped: false }),
     [],
   )
 
@@ -46,8 +46,8 @@ function HeroContent({ progress, pointer, lite, reducedMotion }) {
     // Composição responsiva: à direita no desktop, embaixo no celular
     const aspect = size.width / Math.max(1, size.height)
     const landscape = aspect >= 1.1
-    const halfW = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * 7 * aspect
-    root.current.position.x = landscape ? Math.min(halfW * 0.46, 2.4) : 0
+    const halfW = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * 8.4 * aspect
+    root.current.position.x = landscape ? Math.min(halfW * 0.44, 2.7) : 0
     root.current.scale.setScalar(landscape ? 1 : 0.8)
 
     spin.current.rotation.y = s.spin + s.p * Math.PI * 0.9
@@ -58,14 +58,14 @@ function HeroContent({ progress, pointer, lite, reducedMotion }) {
     rings.current.rotation.set(0.35 + s.p * 0.6, s.spin * 1.6, 0.12)
     rings.current.children[1].rotation.set(1.1, 0, s.spin * -2.2)
 
-    camera.position.set(s.px * 0.35, 1.75 + s.p * 1.3 + s.py * 0.18, (landscape ? 7 : 8.6) + s.p * 1.8)
-    camera.lookAt(0, (landscape ? 1.05 : 1.55) - s.p * 0.2, 0)
+    camera.position.set(s.px * 0.35, 1.8 + s.p * 1.3 + s.py * 0.18, (landscape ? 8.4 : 9.2) + s.p * 1.8)
+    camera.lookAt(0, (landscape ? 1.12 : 1.55) - s.p * 0.2, 0)
   })
 
   return (
     <>
       <StudioLights />
-      <StudioEnvironment lite={lite} />
+      <StudioEnvironment />
 
       <group ref={root}>
         <group ref={spin}>
@@ -98,10 +98,10 @@ function HeroContent({ progress, pointer, lite, reducedMotion }) {
 
         <group ref={rings} position={[0, 1.25, 0]}>
           <mesh material={ringMat}>
-            <torusGeometry args={[2.05, 0.0045, 8, 160]} />
+            <torusGeometry args={[1.95, 0.004, 8, 160]} />
           </mesh>
           <mesh material={ringMat}>
-            <torusGeometry args={[2.35, 0.003, 8, 160]} />
+            <torusGeometry args={[2.2, 0.003, 8, 160]} />
           </mesh>
         </group>
 

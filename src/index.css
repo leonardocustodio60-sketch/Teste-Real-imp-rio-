@@ -159,6 +159,12 @@
   }
 
   /* Etiquetas de detalhe do provador 3D */
+  .hotspot-anchor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+  }
   .hotspot {
     display: flex;
     align-items: center;
@@ -168,9 +174,16 @@
     transition: opacity 0.35s ease, transform 0.35s ease;
     transition-delay: calc(var(--i, 0) * 60ms);
   }
-  .hotspot[data-visible="false"] {
+  .hotspot-anchor[data-visible="false"] .hotspot {
     opacity: 0;
     transform: translate(-7px, -50%) scale(0.9);
+  }
+  .hotspot-anchor[data-side="left"] .hotspot {
+    flex-direction: row-reverse;
+    transform: translate(calc(-100% + 7px), -50%);
+  }
+  .hotspot-anchor[data-side="left"][data-visible="false"] .hotspot {
+    transform: translate(calc(-100% + 7px), -50%) scale(0.9);
   }
   .hotspot-dot {
     position: relative;
