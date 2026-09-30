@@ -59,6 +59,7 @@ export function Showroom({ profile }) {
   const select = useCallback((index) => {
     const n = looks.length
     setActive(((index % n) + n) % n)
+    setInteracted(true)
     drag.current.rot = 0
     drag.current.vel = 0
   }, [])
@@ -106,6 +107,13 @@ export function Showroom({ profile }) {
   const quality = profile?.quality
   const canRender3D = !!profile && profile.webgl && (quality !== 'poster' || optIn)
   const mount3D = canRender3D && near && fontsReady
+
+  // A dica "Arraste para girar" some sozinha depois de alguns segundos com o palco à vista
+  useEffect(() => {
+    if (!mount3D || !visible || interacted) return
+    const timer = setTimeout(() => setInteracted(true), 6000)
+    return () => clearTimeout(timer)
+  }, [mount3D, visible, interacted])
 
   return (
     <section id="looks" ref={section} aria-labelledby="looks-title" className="relative py-24 sm:py-32">
@@ -180,7 +188,7 @@ export function Showroom({ profile }) {
 
               {/* HUD superior */}
               <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between p-4 sm:p-5">
-                <p className="hud-label rounded-full border border-white/10 bg-ink/60 px-3 py-1.5 backdrop-blur" aria-live="polite">
+                <p className="hud-label max-w-[calc(100%-3.5rem)] truncate rounded-full border border-white/10 bg-ink/60 px-3 py-1.5 backdrop-blur" aria-live="polite">
                   Look {String(active + 1).padStart(2, '0')}/{String(looks.length).padStart(2, '0')} · {look.name}
                 </p>
                 <button
