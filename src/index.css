@@ -1,0 +1,269 @@
+@import "tailwindcss";
+
+/*
+ * ============================================================
+ *  TOKENS DA MARCA — Real Império Multimarcas
+ *  Paleta extraída da identidade da loja (fachada e Instagram):
+ *  preto profundo + dourado/amarelo + branco.
+ *  Troque as cores aqui e toda a página (inclusive o 3D) acompanha.
+ * ============================================================
+ */
+@theme {
+  --color-ink: #070708;          /* fundo principal */
+  --color-coal: #0d0d10;         /* superfícies */
+  --color-graphite: #16161b;     /* cards */
+  --color-steel: #24242b;        /* bordas fortes */
+  --color-bone: #f4f1ea;         /* texto principal (branco quente) */
+  --color-mist: #a3a3ad;         /* texto secundário */
+  --color-gold: #f5c542;         /* dourado da marca */
+  --color-gold-soft: #ffe08a;
+  --color-gold-deep: #c8961c;
+
+  --font-display: "Unbounded Variable", "Unbounded", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, monospace;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-shine: shine 2.8s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-scroll-cue: scroll-cue 2.2s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes shine {
+    0% { transform: translateX(-120%) skewX(-20deg); }
+    60%, 100% { transform: translateX(220%) skewX(-20deg); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.9; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+  @keyframes scroll-cue {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Texto com gradiente dourado */
+  .text-gold-gradient {
+    background: linear-gradient(100deg, var(--color-gold-soft) 0%, var(--color-gold) 45%, var(--color-gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Micro-rótulo estilo HUD */
+  .hud-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-gold) 80%, white);
+  }
+
+  /* Cantoneiras de interface futurista */
+  .hud-corners {
+    position: relative;
+  }
+  .hud-corners::before,
+  .hud-corners::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-color: var(--color-gold);
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .hud-corners::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+    border-top-left-radius: 6px;
+  }
+  .hud-corners::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-bottom-right-radius: 6px;
+  }
+
+  /* Fundo com grade tecnológica */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Ruído sutil para dar textura "premium" */
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* HERO: altura total da tela + parallax guiado pela rolagem (--hero-p: 0 → 1) */
+  .hero-screen {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+  .hero-visual {
+    --hero-base: 0.6;
+    opacity: calc(var(--hero-base) * (1 - var(--hero-p, 0) * 0.9));
+    transform: translate3d(0, calc(var(--hero-p, 0) * 18vh), 0) scale(calc(1 + var(--hero-p, 0) * 0.06));
+    will-change: transform, opacity;
+  }
+  @media (min-width: 1024px) {
+    .hero-visual {
+      --hero-base: 1;
+    }
+  }
+  .hero-copy {
+    opacity: calc(1 - var(--hero-p, 0) * 1.3);
+    transform: translate3d(0, calc(var(--hero-p, 0) * -9vh), 0);
+  }
+
+  /* Etiquetas de detalhe do provador 3D */
+  .hotspot {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    transform: translate(-7px, -50%);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  .hotspot[data-visible="false"] {
+    opacity: 0;
+    transform: translate(-7px, -50%) scale(0.9);
+  }
+  .hotspot-dot {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--color-gold);
+    box-shadow: 0 0 0 4px rgb(245 197 66 / 0.25), 0 0 18px rgb(245 197 66 / 0.8);
+  }
+  .hotspot-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid var(--color-gold);
+    animation: var(--animate-pulse-ring);
+  }
+  .hotspot-label {
+    border: 1px solid rgb(245 197 66 / 0.45);
+    background: rgb(7 7 8 / 0.78);
+    backdrop-filter: blur(8px);
+    color: var(--color-bone);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  /* Revelação ao rolar (controlado por <Reveal>) */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition:
+      opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Borda com gradiente animado para cards */
+  .glow-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(245 197 66 / 0.75),
+      rgb(245 197 66 / 0.08) 40%,
+      rgb(255 255 255 / 0.06) 70%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Estrelas de avaliação */
+  .star {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-gold);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal,
+  .hero-visual,
+  .hero-copy {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-visual {
+    opacity: var(--hero-base);
+  }
+}
